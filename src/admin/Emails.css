@@ -1,0 +1,9 @@
+.status-column {
+  width: 138px;
+}
+
+.body-content {
+  max-width: 280px;
+  max-height: 60px;
+  overflow: auto;
+}

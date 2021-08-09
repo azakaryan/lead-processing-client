@@ -1,26 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+import EmailList from './admin/Emails';
+import EmailShow from './user/Email';
+import SignIn from './sessions/SignIn';
+import SignOut from './sessions/SignOut';
+import Header from './shared/components/header/Header';
+import { connect } from 'react-redux';
+import SignInSuccessRedirect from './sessions/SignInSuccessRedirect';
+import { AuthData } from './shared/reducers'
+import Home from './shared/components/home/Home';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IProps {
+  isSignedIn?: boolean;
+  auth?: AuthData;
 }
 
-export default App;
+class App extends React.Component<IProps> {
+  
+  render() {
+    return (
+      <div className="ui container">
+        <BrowserRouter>
+          <div>
+            <Header authData={this.props.auth}/>
+            <Route path="/" exact component={Home} />
+            <Route path="/sessions/signin" component={SignIn} />
+            <Route path="/sessions/signin-success-redirect" component={SignInSuccessRedirect} />
+            <Route path="/sessions/signout" component={SignOut} />
+            <Route path="/admin/emails" exact component={EmailList} />
+            <Route path="/user/email" component={EmailShow}/>
+          </div>
+        </BrowserRouter>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state: any) => {
+  return { isSignedIn: state.auth.isSignedIn, auth: state.auth.data };
+};
+
+export default connect<IProps, null>(mapStateToProps, null)(App);

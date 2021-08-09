@@ -1,0 +1,12 @@
+.activ-user-panel {
+  display: flex;
+}
+
+.username {
+  color: grey;
+  margin-top: 9px;
+}
+
+.username > label {
+  font-weight: bold;
+}
